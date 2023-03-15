@@ -11,7 +11,7 @@
 npm install
 ```
 
-3. Crear arhcivo `.env` y cargar las con valor las variales de entorno definidas en el archivo `.env.template`
+3. Crear arhcivo `.env` y cargar con valor las variales de entorno definidas en el archivo `.env.template`
 
 4. Arrancar aplicacion en modo desarrollo:
 
