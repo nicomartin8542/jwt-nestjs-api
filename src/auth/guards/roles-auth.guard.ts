@@ -1,6 +1,10 @@
-import { Injectable, ExecutionContext, CanActivate } from '@nestjs/common';
+import {
+  Injectable,
+  ExecutionContext,
+  CanActivate,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from '../auth-public.decorator';
 
 @Injectable()
 //Guard custom para que verifique si el endpoint es publico
@@ -8,18 +12,23 @@ export class RolesAuthGuards implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext) {
-    let roles = this.reflector.getAllAndOverride<string[]>('roles', [
+    //Obtengo los reoles que le pase al decorador
+    const roles = this.reflector.getAllAndOverride<string[]>('roles', [
       context.getHandler(),
     ]);
+    //Recupero los roles del request del payload del JWT
+    const user = context.switchToHttp().getRequest().user;
 
-    if (!roles) {
-      roles.push('user');
+    if (!user) return true;
+
+    if (user.roles.includes('admin')) return true;
+
+    if (!roles) roles.push('user');
+
+    if (user.roles.some((r: string) => roles.includes(r))) {
+      return true;
     }
-    const request = context.switchToHttp().getRequest().user.roles;
 
-    request;
-    console.log(`roles :${roles}`);
-
-    return true;
+    throw new UnauthorizedException();
   }
 }
