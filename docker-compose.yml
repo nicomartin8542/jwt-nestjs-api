@@ -4,34 +4,34 @@ services:
   #Base de datos postgres
   postgresdb:
     container_name: postgresdb
-    image: postgres:14.1-alpine
+    image: postgres:14.3
     environment:
-      - POSTGRES_DB=prueba
+      - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      #- PGDATA=/data/postgres
+      - PGDATA=${POSTGRES_DATA}
     command: postgres -c listen_addresses='*'
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - ./postgres:${POSTGRES_DATA}
 
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}:5432
     networks:
       - postgresntw
     restart: always
   #Pgadmin 4 para administrar postgres
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    volumes:
-      - ./pgadmin:/var/lib/pgadmin
-    ports:
-      - '5050:80'
-    networks:
-      - postgresntw
-    restart: always
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+  #   volumes:
+  #     - ./pgadmin:/var/lib/pgadmin
+  #   ports:
+  #     - '5050:80'
+  #   networks:
+  #     - postgresntw
+  #   restart: always
 
 networks:
   postgresntw:
