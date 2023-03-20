@@ -13,6 +13,12 @@ npm install
 
 3. Crear arhcivo `.env` y cargar con valor las variales de entorno definidas en el archivo `.env.template`
 
+4. Ejecutar comando para levantar la base de datos en postgres:
+
+```
+docker-compose up -d
+```
+
 4. Arrancar aplicacion en modo desarrollo:
 
 ```
@@ -21,23 +27,52 @@ npm run start:dev
 
 # Endpoints para probar
 
-1. Login
+1. Crear user
 
 ```
-http://localhost:3000/api/auth/login
+method: POST
+ULR: http://localhost:3000/api/users
+body: {
+  "username": "user",
+  "password": "password",
+  "roles": ["admin"]
+}
+
 ```
 
-- Body
+2. Get all users
 
 ```
-{
+method: GET
+ULR: http://localhost:3000/api/users
+```
+
+3. Login
+
+```
+method: POST
+URL: http://localhost:3000/api/auth/login
+body: {
   "username": "maria",
   "password": "guess"
 }
 ```
 
-2. Get profile: Para este endpint colocar en el Bearer el token JWT previamente obtenido con el login
+4. Get profile
 
 ```
-http://localhost:3000/api/profile
+method: POST
+URL: http://localhost:3000/api/auth/profile
 ```
+
+- Nota: Colocar el token obtenido en el parametro `Bearer`
+
+# Stack utilizado
+
+- NestJs
+- DB Postgres
+- NodeJs
+
+# Herramientas
+
+- Docker
