@@ -53,15 +53,15 @@ ULR: http://localhost:3000/api/users
 method: POST
 URL: http://localhost:3000/api/auth/login
 body: {
-  "username": "maria",
-  "password": "guess"
+  "username": "USER",
+  "password": "PASS"
 }
 ```
 
 4. Get profile
 
 ```
-method: POST
+method: GET
 URL: http://localhost:3000/api/auth/profile
 ```
 
